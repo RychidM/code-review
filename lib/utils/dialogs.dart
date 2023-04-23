@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:stock_savvy/features/home/view/dashboard/controller/dashboard_logic.dart';
 import 'package:stock_savvy/generated/assets.dart';
 import 'package:stock_savvy/shared/resources/app_colors.dart';
 import 'package:stock_savvy/shared/widgets/custom_text_field.dart';
@@ -17,8 +16,6 @@ import '../shared/widgets/custom_elevated_btn.dart';
 import 'dimensions.dart';
 
 class Dialogs {
-  var dashboardController = Get.find<DashboardLogic>();
-
   /// custom toast message
   static Future showToast(
       {required String msg, Color? bgColor, Color? textColor}) {
@@ -78,7 +75,6 @@ class Dialogs {
         ),
         Gap(Dimensions.getDynamicHeight(AppDimens.sPadding20)),
         Form(
-          key: dashboardController.state.createWarehouseKey,
           child: Column(
             children: [
               _warehouseNameField,
@@ -108,17 +104,13 @@ class Dialogs {
             onTap: () => Get.back()),
         Gap(Dimensions.getDynamicWidth(AppDimens.sPadding10)),
         CustomElevatedButton(
-            borderRadius: AppDimens.sPadding50,
-            label: 'Create',
-            onTap: () => dashboardController.createWarehouse()),
+            borderRadius: AppDimens.sPadding50, label: 'Create', onTap: () {}),
       ],
     );
   }
 
   CustomTextField get _warehouseLocationField => CustomTextField(
-        onChange: (value) =>
-            dashboardController.updateWarehouseNameString(value.trim()),
-        controller: dashboardController.state.warehouseLocationController,
+        onChange: (value) {},
         keyboardType: TextInputType.name,
         inputDecoration: InputDecoration(
             labelText: 'Location *',
@@ -132,9 +124,7 @@ class Dialogs {
       );
 
   CustomTextField get _warehouseNameField => CustomTextField(
-        onChange: (value) =>
-            dashboardController.updateWarehouseNameString(value.trim()),
-        controller: dashboardController.state.warehouseNameController,
+        onChange: (value) {},
         inputDecoration: InputDecoration(
           labelText: 'Name *',
           floatingLabelStyle: AppTheme.tableCaptionStyle
@@ -160,28 +150,27 @@ class Dialogs {
     );
   }
 
-  static showNoInternetSnackbar(){
+  static showNoInternetSnackbar() {
     Get.showSnackbar(GetSnackBar(
-          duration: const Duration(seconds: 4),
-          maxWidth: Dimensions.getDynamicWidth(250),
-          animationDuration: const Duration(seconds: 1),
-          borderRadius: Dimensions.getDynamicHeight(AppDimens.sBorderRadius8),
-          messageText: const AppText(
-            text: 'There is no internet connection',
-            size: AppDimens.sFontSize14,
+      duration: const Duration(seconds: 4),
+      maxWidth: Dimensions.getDynamicWidth(250),
+      animationDuration: const Duration(seconds: 1),
+      borderRadius: Dimensions.getDynamicHeight(AppDimens.sBorderRadius8),
+      messageText: const AppText(
+        text: 'There is no internet connection',
+        size: AppDimens.sFontSize14,
+        color: AppColors.sAppWhiteColor,
+      ),
+      icon: Padding(
+        padding: EdgeInsets.only(left: Dimensions.getDynamicWidth(10)),
+        child: SizedBox(
+          height: Dimensions.getDynamicHeight(35),
+          child: Image.asset(
+            Assets.iconsErrorIcon,
             color: AppColors.sAppWhiteColor,
           ),
-          icon: Padding(
-            padding: EdgeInsets.only(left: Dimensions.getDynamicWidth(10)),
-            child: SizedBox(
-              height: Dimensions.getDynamicHeight(35),
-              child: Image.asset(
-                Assets.iconsErrorIcon,
-                color: AppColors.sAppWhiteColor,
-              ),
-            ),
-          ),
-        ));
+        ),
+      ),
+    ));
   }
-
 }
